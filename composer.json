@@ -1,0 +1,17 @@
+{
+    "name": "unipag/unipag",
+    "type": "library",
+    "description": "A PHP Client for Unipag",
+    "license": "ISC",
+    "homepage": "http://www.unipag.com",
+    "version": "0.0.1",
+    "require": {
+        "php": ">=5.2",
+        "ext-curl": "*"
+    },
+    "autoload": {
+        "psr-0" : {
+            "Unipag_" : "lib/"
+        }
+    }
+}
