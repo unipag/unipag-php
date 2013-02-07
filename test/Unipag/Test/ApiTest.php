@@ -9,8 +9,7 @@ class Unipag_Test_ApiTest extends PHPUnit_Framework_TestCase
         $this->pub_key = 'p_EzLtip2wkZusq7MDNBHs3C';
         $this->sec_key = 'sdEzLtip2wkZusq7MDNBHs3C';
         Unipag_Config::$api_key = $this->sec_key;
-        #Unipag_Config::$api_url = 'https://api.unipag.com/v1';
-        Unipag_Config::$api_url = 'http://03.dev.ivelum.com:8001/v1';
+        Unipag_Config::$api_url = 'https://api.unipag.com/v1';
     }
 
     public function testApiDefaults()
