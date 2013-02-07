@@ -2,6 +2,7 @@
     "name": "unipag/unipag",
     "type": "library",
     "description": "A PHP Client for Unipag",
+    "keywords": ["unipag", "payments", "api"],
     "license": "ISC",
     "homepage": "http://www.unipag.com",
     "version": "0.0.1",
