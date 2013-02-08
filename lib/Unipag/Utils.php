@@ -3,26 +3,40 @@
 class Unipag_Utils
 {
     public static function urlify($key, $val) {
-        return urlencode($key) . '=' . urlencode($val);
+        if (is_array($val)) {
+            $params = array();
+            foreach ($val as $k => $v) {
+                $prefix = $key ? $key.'__' : '';
+                $params[] = self::urlify($prefix.$k, $v);
+            }
+            return implode('&', $params);
+        } else {
+            return urlencode($key) . '=' . urlencode($val);
+        }
     }
 
     /**
      * Convert associative array to query string parameters format.
      *
-     * Example:
+     * Supports nested arrays. Nested arrays will be encoded using
+     * prefixes made of parent key and '__'.
+     *
+     * Examples:
+     *
      *   var_dump(Unipag_Utils::urlEncode(array('foo' => 1, 'bar' => 'baz')));
-     *   // output: string(17) "foo=1&amp;bar=baz"
+     *   // output: string(17) "foo=1&bar=baz"
+     *
+     *   var_dump(Unipag_Utils::urlEncode(array(
+     *       'foo' => array('bar' => 'baz', 'key' => 'val')
+     *   )));
+     *   // output: string(25) "foo__bar=baz&foo__key=val"
      *
      * @param $arr
      * @return string
      */
     public static function urlEncode($arr)
     {
-        return implode('&amp;', array_map(
-                'Unipag_Utils::urlify',
-                array_keys($arr),
-                array_values($arr)
-        ));
+        return self::urlify('', $arr);
     }
 
     /**
@@ -63,17 +77,5 @@ class Unipag_Utils
             return strrpos($haystack, $needle, 0) === $expectedPosition;
 
         return strripos($haystack, $needle, 0) === $expectedPosition;
-    }
-
-    /**
-     * Returns true, if $array1 is equal to $array2, false otherwise.
-     *
-     * @param $array1
-     * @param $array2
-     * @return bool
-     */
-    public static function arraysEqual($array1, $array2)
-    {
-        return true;
     }
 }

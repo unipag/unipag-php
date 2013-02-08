@@ -1,12 +1,41 @@
 <?php
 
-class Unipag_Utils_Test extends PHPUnit_Framework_TestCase
+class Unipag_Test_UtilsTest extends PHPUnit_Framework_TestCase
 {
     public function testUrlEncode()
     {
-        $this->assertEquals(Unipag_Utils::urlEncode(array()), '');
-        $arr = array('key1' => 'value1', 'key2' => 'value2');
-        $encoded = Unipag_Utils::urlEncode($arr);
-        $this->assertEquals($encoded, 'key1=value1&amp;key2=value2');
+        $this->assertEquals('',
+            Unipag_Utils::urlEncode(array(
+                # Empty array should be encoded to empty string
+            ))
+        );
+
+        $this->assertEquals("foo=1&bar=baz",
+            Unipag_Utils::urlEncode(array(
+                'foo' => 1,
+                'bar' => 'baz',
+            ))
+        );
+
+        $this->assertEquals("foo=bar&baz__key1=val1&baz__key2=val2",
+            Unipag_Utils::urlEncode(array(
+                'foo' => 'bar',
+                'baz' => array(
+                    'key1' => 'val1',
+                    'key2' => 'val2',
+                )
+            ))
+        );
+
+        $this->assertEquals("foo__bar__key1=val1&foo__bar__key2=val2",
+            Unipag_Utils::urlEncode(array(
+                'foo' => array(
+                    'bar' => array(
+                        'key1' => 'val1',
+                        'key2' => 'val2',
+                    )
+                )
+            )
+        ));
     }
 }
