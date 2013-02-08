@@ -1,14 +1,13 @@
 <?php
 
+require_once 'Key.php';
+
 class Unipag_Test_ApiTest extends PHPUnit_Framework_TestCase
 {
-    private $pub_key, $sec_key;
-
     public function setUp()
     {
-        $this->pub_key = 'p_EzLtip2wkZusq7MDNBHs3C';
-        $this->sec_key = 'sdEzLtip2wkZusq7MDNBHs3C';
-        Unipag_Config::$api_key = $this->sec_key;
+        $this->markTestSkipped('');
+        Unipag_Config::$api_key = Unipag_Test_Key::SEC_KEY;
         Unipag_Config::$api_url = 'https://api.unipag.com/v1';
     }
 

@@ -80,4 +80,22 @@ class Unipag_Test_ObjectTest extends PHPUnit_Framework_TestCase
         );
         $this->assertEquals($event_created, $event_constructed);
     }
+
+    public function testClassUrl()
+    {
+        $this->assertEquals(
+            'invoices',
+            Unipag_Object::classUrl('Unipag_Invoice')
+        );
+    }
+
+    public function testInstanceUrl()
+    {
+        $invoice = new Unipag_Invoice(array(
+            'id' => 123,
+            'amount' => 1,
+            'currency' => 'USD'
+        ));
+        $this->assertEquals('invoices/123', $invoice->instanceUrl());
+    }
 }

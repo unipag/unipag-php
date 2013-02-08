@@ -68,4 +68,81 @@ class Unipag_Object
         }
         return $drill_down;
     }
+
+    /**
+     * Get api url for a class.
+     *
+     * Example:
+     *  var_dump(Unipag_Object::classUrl('Unipag_Invoice'));
+     *  // output: string(8) "invoices"
+     *
+     * @param $class
+     * @return string
+     */
+    public static function classUrl($class)
+    {
+        return strtolower(ltrim(strrchr($class, '_'), '_')).'s';
+    }
+
+    /**
+     * Get api url for a class instance.
+     *
+     * Example:
+     *  $invoice = new Unipag_Invoice(array('id' => 123));
+     *  var_dump($invoice->instanceUrl());
+     *  // output: string(8) "invoices"
+     *
+     * @return string
+     */
+    public function instanceUrl()
+    {
+        return self::classUrl(get_class($this)).'/'.$this->id;
+    }
+
+    public static function execGet($class, $id, $api_key)
+    {
+        return self::fromArray(
+            Unipag_Api::get(self::classUrl($class).'/'.$id, array(), $api_key)
+        );
+    }
+
+    public function execSave()
+    {
+        $this->__construct(
+            Unipag_Api::post($this->instanceUrl(), $this->keys, $this->api_key)
+        );
+        return $this;
+    }
+
+    public static function execCreate($class, $params, $api_key=null)
+    {
+        return self::fromArray(
+            Unipag_Api::post(self::classUrl($class), $params, $api_key)
+        );
+    }
+
+    public function execRemove()
+    {
+        $this->__construct(
+            Unipag_Api::delete($this->instanceUrl(), array(), $this->api_key)
+        );
+        return $this;
+    }
+
+    public function execRestore()
+    {
+        $this->__construct(
+            Unipag_Api::post($this->instanceUrl(), array(
+                'deleted' => false,
+            ), $this->api_key)
+        );
+        return $this;
+    }
+
+    public static function execFilter($class, $filter, $api_key)
+    {
+        return self::fromArray(
+            Unipag_Api::get(self::classUrl($class), $filter, $api_key)
+        );
+    }
 }
