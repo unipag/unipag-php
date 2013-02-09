@@ -77,4 +77,29 @@ class Unipag_Test_InvoiceTest extends PHPUnit_Framework_TestCase
         }
         $this->fail("Invoice id={$invoice->id} not found.");
     }
+
+    /**
+     * Create new invoice using save.
+     */
+    public function testCreate2()
+    {
+        $invoice = new Unipag_Invoice(array(
+            'amount' => 42,
+            'currency' => 'USD',
+        ));
+        $this->assertEmpty($invoice->id);
+        $invoice->save();
+        $this->assertNotEmpty($invoice->id);
+        return $invoice;
+    }
+
+    /**
+     * @depends testCreate
+     */
+    public function testReload($invoice)
+    {
+        $reloaded = new Unipag_Invoice(array('id' => $invoice->id));
+        $reloaded->reload();
+        $this->assertEquals($invoice->amount, $reloaded->amount);
+    }
 }

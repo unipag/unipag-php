@@ -19,6 +19,11 @@ class Unipag_Invoice extends Unipag_Object
         return self::execGet($class, $id, $api_key);
     }
 
+    public function reload()
+    {
+        return $this->execReload();
+    }
+
     public function save()
     {
         return $this->execSave();

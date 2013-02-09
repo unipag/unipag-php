@@ -12,6 +12,9 @@ class Unipag_Object
             );
         }
         $this->api_key = $api_key;
+        if (!array_key_exists('id', $params)) {
+            $params['id'] = null;
+        }
         foreach ($params as $k => $v) {
             $this->__set($k, $v);
         }
@@ -104,6 +107,19 @@ class Unipag_Object
         return self::fromArray(
             Unipag_Api::get(self::classUrl($class).'/'.$id, array(), $api_key)
         );
+    }
+
+    public function execReload()
+    {
+        if (!array_key_exists('id', $this->keys) || !$this->keys['id']) {
+            throw new Unipag_Exception(
+                "Unable to reload object, because it's id is unknown."
+            );
+        }
+        $this->__construct(
+            Unipag_Api::get($this->instanceUrl(), array(), $this->api_key)
+        );
+        return $this;
     }
 
     public function execSave()
