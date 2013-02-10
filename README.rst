@@ -22,7 +22,7 @@ you can add Unipag Client for PHP with it:
 
     {
         "require": {
-            "unipag/unipag": ">=0.0.1"
+            "unipag/unipag": ">=0.1.0"
         }
     }
 

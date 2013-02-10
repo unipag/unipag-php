@@ -5,7 +5,6 @@
     "keywords": ["unipag", "payments", "api"],
     "license": "ISC",
     "homepage": "http://www.unipag.com",
-    "version": "0.0.1",
     "require": {
         "php": ">=5.2",
         "ext-curl": "*"
