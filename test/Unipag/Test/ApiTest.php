@@ -35,6 +35,13 @@ class Unipag_Test_ApiTest extends PHPUnit_Framework_TestCase
         Unipag_Api::get('/');
     }
 
+    public function testBadApiKey()
+    {
+        $this->setExpectedException('Unipag_Unauthorized');
+        Unipag_Config::$api_key = '111xxxxIamBadApiKeyxxxxx';
+        Unipag_Api::get('/');
+    }
+
     public function testWrongMethod()
     {
         $this->setExpectedException('Unipag_MethodNotAllowed');
