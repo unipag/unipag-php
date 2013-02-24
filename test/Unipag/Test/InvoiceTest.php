@@ -45,8 +45,15 @@ class Unipag_Test_InvoiceTest extends PHPUnit_Framework_TestCase
     public function testRemove($invoice)
     {
         $this->assertFalse($invoice->deleted);
+        $payment = Unipag_Payment::create(array(
+            'invoice' => $invoice->id,
+            'payment_gateway' => 'masterbank.ru',
+        ));
+        $this->assertFalse($payment->cancelled);
         $invoice->remove();
         $this->assertTrue($invoice->deleted);
+        $payment->reload();
+        $this->assertTrue($payment->cancelled);
         return $invoice;
     }
 
@@ -58,6 +65,25 @@ class Unipag_Test_InvoiceTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($invoice->deleted);
         $invoice->restore();
         $this->assertFalse($invoice->deleted);
+        return $invoice;
+    }
+
+    /**
+     * @depends testRestore
+     */
+    public function testRemove2($invoice)
+    {
+        $this->assertFalse($invoice->deleted);
+        $payment = Unipag_Payment::create(array(
+            'invoice' => $invoice->id,
+            'payment_gateway' => 'masterbank.ru',
+        ));
+        $this->assertFalse($payment->cancelled);
+        $invoice->deleted = true;
+        $invoice->save();
+        $this->assertTrue($invoice->deleted);
+        $payment->reload();
+        $this->assertTrue($payment->cancelled);
         return $invoice;
     }
 

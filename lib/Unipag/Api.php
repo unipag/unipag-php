@@ -146,6 +146,9 @@ If problem persists, please contact us at support@unipag.com.';
             case 401:
                 throw new Unipag_Unauthorized($err_msg, $http_code,
                                                     $http_body, $json_body);
+            case 403:
+                throw new Unipag_Forbidden($err_msg, $http_code,
+                                                    $http_body, $json_body);
             case 404:
                 throw new Unipag_NotFound($err_msg, $http_code,
                                                     $http_body, $json_body);
