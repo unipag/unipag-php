@@ -123,7 +123,7 @@ If problem persists, please contact us at support@unipag.com.';
         $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $json_body = json_decode($http_body, true);
 
-        if (!$json_body) {
+        if (!is_array($json_body)) {
             if ($http_code == 401) {
                 throw new Unipag_Unauthorized(
                     'API key you provided is not active.',
