@@ -13,12 +13,12 @@ class Unipag_Test_InvoiceTest extends PHPUnit_Framework_TestCase
     {
         $invoice = Unipag_Invoice::create(array(
             'amount' => 1,
-            'currency' => 'USD',
+            'currency' => 'RUB',
             'customer' => 'Foo',
             'description' => 'Bar',
         ));
         $this->assertEquals(1, $invoice->amount);
-        $this->assertEquals('USD', $invoice->currency);
+        $this->assertEquals('RUB', $invoice->currency);
         $this->assertEquals('Foo', $invoice->customer);
         $this->assertEquals('Bar', $invoice->description);
 

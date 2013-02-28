@@ -124,18 +124,40 @@ If problem persists, please contact us at support@unipag.com.';
         $json_body = json_decode($http_body, true);
 
         if (!$json_body) {
-            throw new Unipag_ApiError(
-                'Invalid response from the API (not a valid JSON). '.
-                'If problem persists, please contact us at support@unipag.com',
-                $http_code, $http_body, $json_body
-            );
+            if ($http_code == 401) {
+                throw new Unipag_Unauthorized(
+                    'API key you provided is not active.',
+                    $http_code, $http_body, $json_body
+                );
+            } else {
+                throw new Unipag_ApiError(
+                    'Invalid response from the API (not a valid JSON). '.
+                        'If problem persists, please contact us at support@unipag.com',
+                    $http_code, $http_body, $json_body
+                );
+            }
         }
 
-        $err_msg = array_key_exists('error', $json_body)
-                && array_key_exists('description', $json_body['error'])
-                    ? $json_body['error']['description']
-                    : 'Unknown error. If problem persists, '.
-                        'please contact us at support@unipag.com';
+        $err_msg = $http_code == 200 ? 'OK' : 'Unknown error. If problem '.
+                'persists, please contact us at support@unipag.com';
+        if (array_key_exists('error', $json_body)) {
+            if (array_key_exists('description', $json_body['error'])) {
+                $err_msg = $json_body['error']['description'];
+            }
+            if (array_key_exists('params', $json_body['error'])) {
+                $err_msg.='
+Params:';
+                $err_params = $json_body['error']['params'];
+                if (is_array($err_params)) {
+                    foreach ($err_params as $k => $v) {
+                        $err_msg.= '
+- '.$k.': '.$v;
+                    }
+                }
+                $err_msg.='
+';
+            }
+        }
 
         switch ($http_code) {
             case 200:
