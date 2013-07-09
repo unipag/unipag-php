@@ -48,11 +48,16 @@ class Unipag_Test_InvoiceTest extends PHPUnit_Framework_TestCase
         $payment = Unipag_Payment::create(array(
             'invoice' => $invoice->id,
             'payment_gateway' => 'masterbank.ru',
+            'params' => array(
+                'description' => 'Herp Derp'
+            )
         ));
         $this->assertFalse($payment->cancelled);
         $invoice->remove();
+        $invoice->reload();
         $this->assertTrue($invoice->deleted);
         $payment->reload();
+        $this->assertEquals('Herp Derp', $payment->params['description']);
         $this->assertTrue($payment->cancelled);
         return $invoice;
     }
@@ -81,6 +86,7 @@ class Unipag_Test_InvoiceTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($payment->cancelled);
         $invoice->deleted = true;
         $invoice->save();
+        $invoice->reload();
         $this->assertTrue($invoice->deleted);
         $payment->reload();
         $this->assertTrue($payment->cancelled);
@@ -127,5 +133,41 @@ class Unipag_Test_InvoiceTest extends PHPUnit_Framework_TestCase
         $reloaded = new Unipag_Invoice(array('id' => $invoice->id));
         $reloaded->reload();
         $this->assertEquals($invoice->amount, $reloaded->amount);
+    }
+
+    public function testCustomData()
+    {
+        $test_array = array(
+            'int' => 1,
+            'float' => 3.14159,
+            'str' => 'Hi there',
+            'null' => NULL,
+            'true' => True,
+            'false' => False,
+            'int_str' => '2',
+            'float_str' => '2.71828',
+            'null_str' => 'null',
+            'true_str' => 'true',
+            'false_str' => 'false',
+            'array' => array(1, 1.5, 'a', NULL, True),
+            'obj' => array(
+                'int_key' => 42,
+                'float_key' => 90.0,
+                'str_key' => '®',
+                'array' => array(1, 2, False),
+                'obj' => array('null' => NULL)
+            ),
+        );
+        $invoice = new Unipag_Invoice(array(
+            'amount' => 1.5,
+            'currency' => 'USD',
+            'customer' => '®',
+            'custom_data' => $test_array,
+        ));
+        $invoice->save();
+        $this->assertEquals('®', $invoice->customer);
+        $inv2 = Unipag_Invoice::get($invoice->id);
+        $this->assertEquals('®', $inv2->customer);
+        $this->assertEquals($test_array, $inv2->custom_data);
     }
 }

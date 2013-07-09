@@ -6,7 +6,6 @@ class Unipag_Test_ApiTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        #$this->markTestSkipped('');
         Unipag_Config::$api_key = Unipag_Test_Key::SEC_KEY;
         Unipag_Config::$api_url = 'https://api.unipag.com/v1';
     }
