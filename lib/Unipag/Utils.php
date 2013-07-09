@@ -10,7 +10,24 @@ class Unipag_Utils
                 $params[] = self::urlify($prefix.$k, $v);
             }
             return implode('&', $params);
+        } elseif (is_bool($val)) {
+            return urlencode($key) . '=' . ($val ? 'true' : 'false');
+        } elseif (is_null($val)) {
+            return urlencode($key) . '=null';
+        } elseif (is_float($val)) {
+            // Preserve type if float can be implicitly converted to int.
+            // For example, 1.0 should remain 1.0, and not become 1.
+            $val_str = (string) $val;
+            if ((int) $val == $val) {
+                $val_str = $val_str . '.0';
+            }
+            return urlencode($key) . '=' . urlencode($val_str);
         } else {
+            if (is_string($val)) {
+                if (is_numeric($val) || $val == 'true' || $val == 'false' || $val == 'null') {
+                    $val = '"'.$val.'"';
+                }
+            }
             return urlencode($key) . '=' . urlencode($val);
         }
     }
