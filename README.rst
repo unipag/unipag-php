@@ -123,6 +123,63 @@ Tip: webhooks can be a pain to debug. Check out Unipag Network Activity log, it
 is available at `<https://my.unipag.com>`_ > Network Activity. You may find it
 useful for your webhook handlers debugging.
 
+Usage of invoice "custom_data" property
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Invoice objects have an optional "custom_data" property, which can be used to
+store up to 4KB of arbitrary data in JSON format. You can freely use this field
+to store additional information about invoices, which is specific for your
+application.
+
+In PHP, you can use associative and numeric arrays, strings, numbers, boolean
+and NULL values in any combination to store them in custom_data. All of these
+types will be properly serialized when sending to Unipag and deserialized when
+fetching them back. Consider the following examples, all of them are valid
+usages of custom_data property:
+
+::
+
+    Unipag_Config::$api_key = '<your-secret-key>';
+
+    $invoice = Unipag_Invoice::create(array(
+        'amount' => 42,
+        'currency' => 'USD',
+    ));
+
+    // Store associative and numeric arrays, and single values
+    $invoice->custom_data = array(
+        'address' => array(
+            'billing' => '5863 Gentle Pond Rise, Suspension, Ontario, CA',
+            'shipping' => '9215 Red Ridge, Lancer, Idaho, US',
+        ),
+        'contact_phones' => array('555-4242', '555-9000'),
+        'magic_number' => 42,
+    );
+    $invoice->save();
+
+    // Clean everything out
+    $invoice->custom_data = NULL;
+    $invoice->save();
+
+    // Store a single value. Yes, it will be a valid JSON.
+    $invoice->custom_data = True;
+    $invoice->save();
+
+    // Store numeric array as a root element. Let's assume that we need to save cart items:
+    $invoice->custom_data = array(
+        array(
+            'product' => 'apples',
+            'price' => 10.0,
+            'quantity' => 1,
+        ),
+        array(
+            'product' => 'oranges',
+            'price' => 12.5,
+            'quantity' => 2,
+        ),
+    );
+    $invoice->save();
+
 
 Report bugs
 -----------
