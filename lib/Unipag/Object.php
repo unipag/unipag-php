@@ -4,6 +4,8 @@ class Unipag_Object
 {
     private $keys;
 
+    public $api_key;
+
     public function __construct($params=array(), $api_key=null)
     {
         if (!is_array($params)) {
