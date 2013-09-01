@@ -100,7 +100,7 @@ class Unipag_Test_InvoiceTest extends PHPUnit_Framework_TestCase
      */
     public function testFilter($invoice)
     {
-        $invoice_list = Unipag_Invoice::filter();
+        $invoice_list = Unipag_Invoice::filter(array('order_by' => '-created'));
         foreach ($invoice_list as $num => $inv) {
             if ($inv->id == $invoice->id) {
                 $this->assertTrue(true);
