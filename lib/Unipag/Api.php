@@ -180,6 +180,9 @@ Params:';
             case 500:
                 throw new Unipag_InternalError($err_msg, $http_code,
                                                     $http_body, $json_body);
+            case 502:
+                throw new Unipag_BadGateway($err_msg, $http_code,
+                                                    $http_body, $json_body);
             case 503:
                 throw new Unipag_ServiceUnavailable($err_msg, $http_code,
                                                     $http_body, $json_body);
