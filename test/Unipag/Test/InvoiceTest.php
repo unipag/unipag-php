@@ -1,14 +1,9 @@
 <?php
 
-require_once 'Key.php';
+require_once 'TestCase.php';
 
-class Unipag_Test_InvoiceTest extends PHPUnit_Framework_TestCase
+class Unipag_Test_InvoiceTest extends Unipag_Test_TestCase
 {
-    public function setUp()
-    {
-        Unipag_Config::$api_key = Unipag_Test_Key::SEC_KEY;
-    }
-
     public function testCreate()
     {
         $invoice = Unipag_Invoice::create(array(

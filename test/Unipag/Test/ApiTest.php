@@ -1,15 +1,9 @@
 <?php
 
-require_once 'Key.php';
+require_once'TestCase.php';
 
-class Unipag_Test_ApiTest extends PHPUnit_Framework_TestCase
+class Unipag_Test_ApiTest extends Unipag_Test_TestCase
 {
-    public function setUp()
-    {
-        Unipag_Config::$api_key = Unipag_Test_Key::SEC_KEY;
-        Unipag_Config::$api_url = 'https://api.unipag.com/v1';
-    }
-
     public function testApiDefaults()
     {
         Unipag_Config::$currency = 'USD';
