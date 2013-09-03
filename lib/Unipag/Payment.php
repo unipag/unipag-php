@@ -6,7 +6,7 @@ class Unipag_Payment extends Unipag_Object
     {
         parent::__construct($params, $api_key);
         if (!array_key_exists('currency', $params)) {
-            $default_currency = Unipag_Config::$currency;
+            $default_currency = Unipag_Config::$default_currency;
             if ($default_currency) {
                 $this->currency = $default_currency;
             }

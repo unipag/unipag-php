@@ -6,7 +6,7 @@ class Unipag_Test_ApiTest extends Unipag_Test_TestCase
 {
     public function testApiDefaults()
     {
-        Unipag_Config::$currency = 'USD';
+        Unipag_Config::$default_currency = 'USD';
         $invoice = new Unipag_Invoice(array(
             'amount' => 1
         ));
