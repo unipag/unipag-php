@@ -42,7 +42,7 @@ class Unipag_Test_InvoiceTest extends Unipag_Test_TestCase
         $this->assertFalse($invoice->deleted);
         $payment = Unipag_Payment::create(array(
             'invoice' => $invoice->id,
-            'payment_gateway' => 'masterbank.ru',
+            'connection' => 'masterbank.ru',
             'params' => array(
                 'description' => 'Herp Derp'
             )
@@ -76,7 +76,7 @@ class Unipag_Test_InvoiceTest extends Unipag_Test_TestCase
         $this->assertFalse($invoice->deleted);
         $payment = Unipag_Payment::create(array(
             'invoice' => $invoice->id,
-            'payment_gateway' => 'masterbank.ru',
+            'connection' => 'masterbank.ru',
         ));
         $this->assertFalse($payment->cancelled);
         $invoice->deleted = true;
