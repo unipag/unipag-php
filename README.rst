@@ -77,25 +77,6 @@ Create invoice
 
     // Done. $invoice->id now contains unique id of this invoice at Unipag.
 
-Install Unipag widget
-~~~~~~~~~~~~~~~~~~~~~
-
-Try our widget for payments workflow handling. It's quite optional, but you
-might find it handy and time-saving.
-
-.. code:: html
-
-    <script type="text/javascript"
-        src="//d3oe3cumn3db7.cloudfront.net/uw3/js/uw3.min.js"
-        charset="utf-8"
-        id="uw3js"
-        data-key="<your-public-key>">
-    </script>
-
-Please note, it is important that you use **public key** for widget.
-Public keys have restricted access to your data and are supposed to be safe
-for use in browser.
-
 
 Handle webhook from Unipag
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
