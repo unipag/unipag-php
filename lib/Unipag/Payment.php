@@ -35,6 +35,17 @@ class Unipag_Payment extends Unipag_Object
         return $this->execRemove();
     }
 
+    public function refund($amount=null)
+    {
+        $params = $amount ? array('amount' => $amount) : array();
+        return $this->execAction('refund', $params);
+    }
+
+    public function capture()
+    {
+        return $this->execAction('capture');
+    }
+
     public static function filter($filter=array(), $api_key=null)
     {
         $class = get_class();

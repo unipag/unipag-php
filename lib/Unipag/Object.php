@@ -104,6 +104,11 @@ class Unipag_Object
         return self::classUrl(get_class($this)).'/'.$this->id;
     }
 
+    public function actionUrl($action)
+    {
+        return $this->instanceUrl().'/'.$action;
+    }
+
     public static function execGet($class, $id, $api_key)
     {
         return self::fromArray(
@@ -162,5 +167,13 @@ class Unipag_Object
         return self::fromArray(
             Unipag_Api::get(self::classUrl($class), $filter, $api_key)
         );
+    }
+
+    public function execAction($action, $params=array())
+    {
+        $this->__construct(
+            Unipag_Api::post($this->actionUrl($action), $params, $this->api_key)
+        );
+        return $this;
     }
 }
