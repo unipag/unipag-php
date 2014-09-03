@@ -2,5 +2,5 @@
 
 class Unipag_Client
 {
-    const VERSION = '0.2.1';
+    const VERSION = '0.3.0';
 }
